@@ -45,7 +45,7 @@ nav {
   z-index:       10;
   background-color: white;
   opacity:       0.95;
-  
+
   color:         #777;
   padding:       1em 3em 1em 3em;
   margin:        0;
@@ -183,6 +183,53 @@ a code .decorator {
 }
 
 /* declarations */
+
+.declaration  {
+  padding: 0em 0em 0em 0em;
+}
+
+table, td, th{
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  border-radius: 10px;
+}
+
+table {
+  background: #f0f0f0;
+  color: #444;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px #ccc;
+}
+
+tr:first-child th {
+  border-top: hidden;
+}
+
+tr:first-child th:first-child {
+  border-left: hidden;
+}
+
+tr:first-child th:last-child {
+  border-right: hidden;
+}
+
+tr:last-child td {
+  border-bottom: hidden;
+}
+
+tr:last-child td:first-child {
+  border-left: hidden;
+}
+
+tr:last-child td:last-child {
+  border-right: hidden;
+}
+
+
+td {
+  padding-left: 1em;
+  padding-right: 1em;
+}
 
 pre {
   border:        1px solid #CCC;
