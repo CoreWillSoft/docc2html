@@ -90,8 +90,8 @@ extension DocCArchive.Reference {
         return ref.abstract.generateHTML(in: ctx)
         
       case .image(let ref):
-        return ref.alt.htmlEscaped
-      
+        return ref.alt?.htmlEscaped ?? ""
+
       case .link(let ref):
         return ref.title.htmlEscaped
 
@@ -132,7 +132,7 @@ extension DocCArchive.TopicReference {
       case .none   : ms += title
       case .symbol : ms += "<code>\(title)</code>"
         
-      case .article, .overview, .project:
+      case .article, .overview, .project, .section:
         assertionFailure("unsupported kind: \(kind as Any)")
         ms += title
     }
@@ -150,7 +150,7 @@ extension DocCArchive.ImageReference {
   func generateHTML(in ctx: DZRenderingContext) -> String {
     guard let variant = bestVariant(for: ctx.traits) else {
       assertionFailure("Got no image variant?")
-      return "<!-- invalid image ref -->\(alt.htmlEscaped)"
+      return "<!-- invalid image ref -->\(alt?.htmlEscaped ?? "")"
     }
     
     let media : String = {
@@ -167,12 +167,13 @@ extension DocCArchive.ImageReference {
     
     let url    = ctx.linkToResource(variant.url)
     let srcset = url.htmlEscaped
-               + (ctx.traits.contains(.retina) ? " 2x" : "")
+               + (ctx.traits.contains(.retina) ? " 2x"
+               : ctx.traits.contains(.threeX) ? " 3x" : "")
 
     var ms = "<picture><source\(media) srcset='\(srcset)'>"
 
     ms += "<img"
-    if !alt.isEmpty { ms += " alt='\(alt.htmlEscaped)'" }
+    if let alt = alt, !alt.isEmpty { ms += " alt='\(alt.htmlEscaped)'" }
     ms += " srcset='\(srcset)'"
     ms += " src='\(url.htmlEscaped)'"
     if let size = variant.size { ms += " width='\(size.width)' height='auto'" }
